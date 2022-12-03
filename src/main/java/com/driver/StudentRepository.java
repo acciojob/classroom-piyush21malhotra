@@ -93,8 +93,6 @@ public class StudentRepository {
         for(String student : std_hash) {
             studentDB.remove(student);
         }
-        studentTeacherPair.clear();
-        teacherDB.clear();
     }
 
 }
