@@ -52,23 +52,49 @@ public class StudentRepository {
 
     public void addStudentTeacherPair(String student, String teacher) {
 
-        if(studentTeacherPair.containsKey(teacher)) {
-            listOfStudentOfTeacher = studentTeacherPair.get(teacher);
+        if(studentDB.containsKey(student) && teacherDB.containsKey(teacher)) {
+
+            if (studentTeacherPair.containsKey(teacher)) {
+                listOfStudentOfTeacher = studentTeacherPair.get(teacher);
+            }
+            listOfStudentOfTeacher.add(student);
+            studentTeacherPair.put(teacher, listOfStudentOfTeacher);
         }
-        listOfStudentOfTeacher.add(student);
-        studentTeacherPair.put(teacher, listOfStudentOfTeacher);
     }
 
     /* <--------- Delete Methods -------------->*/
 
     public void deleteTeacherByName(String teacher) {
+
+
         teacherDB.remove(teacher);
-        studentTeacherPair.remove(teacher);
+
+        if(studentTeacherPair.containsKey(teacher)) {
+            List<String> std;
+
+            std = studentTeacherPair.get(teacher);
+
+            for(String student : std) {
+
+                studentDB.remove(student);
+            }
+            studentTeacherPair.remove(teacher);
+        }
     }
 
     public void deleteAllTeachers() {
-        teacherDB.clear();
+
+        HashSet<String> std_hash = new HashSet<>();
+
+        for(String teacher : studentTeacherPair.keySet()) {
+
+            std_hash.addAll(studentTeacherPair.get(teacher));
+        }
+        for(String student : std_hash) {
+            studentDB.remove(student);
+        }
         studentTeacherPair.clear();
+        teacherDB.clear();
     }
 
 }
