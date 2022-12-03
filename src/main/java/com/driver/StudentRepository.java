@@ -10,10 +10,10 @@ import java.util.*;
 @Component
 public class StudentRepository {
 
-    Map<String, Student> studentDB = new HashMap<>();
-    Map<String, Teacher> teacherDB = new HashMap<>();
-    Map<String, List<String>> studentTeacherPair = new HashMap<>();
-    List<String> listOfStudentOfTeacher = new ArrayList<>();
+    private Map<String, Student> studentDB = new HashMap<>();
+    private Map<String, Teacher> teacherDB = new HashMap<>();
+    private Map<String, List<String>> studentTeacherPair = new HashMap<>();
+
 
     /* <--------- Get Methods -------------->*/
     public Student getStudentByName(String name) {
@@ -30,12 +30,7 @@ public class StudentRepository {
 
     public List<String> getAllStudents() {
 
-        List<String> listOfStudentsName = new ArrayList<>();
-
-        for(String studentName : studentDB.keySet())
-            listOfStudentsName.add(studentName);
-
-        return listOfStudentsName;
+        return new ArrayList<>(studentDB.keySet());
     }
 
     /* <--------- Post Methods -------------->*/
@@ -53,6 +48,8 @@ public class StudentRepository {
     public void addStudentTeacherPair(String student, String teacher) {
 
         if(studentDB.containsKey(student) && teacherDB.containsKey(teacher)) {
+
+            List<String> listOfStudentOfTeacher = new ArrayList<>();
 
             if (studentTeacherPair.containsKey(teacher)) {
                 listOfStudentOfTeacher = studentTeacherPair.get(teacher);
